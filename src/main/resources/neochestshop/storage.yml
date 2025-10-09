@@ -1,0 +1,9 @@
+# CHANGES TO THIS CONFIG REQUIRE A RESTART.
+# SWAPPING FROM YAML TO MARIADB WILL MOVE ALL DATA ON STARTUP.
+
+storage-type: YAML # YAML, MARIADB
+sql:
+  database: "neo_mods"
+  address: "localhost:3306"
+  username: "root"
+  password: ""

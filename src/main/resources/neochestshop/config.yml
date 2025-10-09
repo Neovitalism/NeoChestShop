@@ -1,0 +1,119 @@
+economy-name: "dollars"
+
+sign-display:
+  - "SHOP" # The parsed [Shop] text.
+  - "ITEM" # The item's name.
+  - "QUANTITY" # The amount the user will purchase.
+  - "PRICE" # The cost(s) of the item, buy and sell if applicable.
+  # Other options include: (There may only be 4!)
+  #   DESCRIPTION - whatever they type into the final line of the sign when creating a shop.
+  #   ITEM_MATERIAL - the material of the item they put as the shop, suffixed with the custom model data.
+  #   OWNER - the name of the owner of the shop
+should-shop-signs-glow: false
+
+hologram:
+  enabled: false
+  text:
+    - "{item}"
+    - "{price}"
+  offset:
+    x: 0.0
+    y: 0.0
+    z: 0.0
+  scale: 1.0
+  width: 200
+
+blacklisted-items:
+  - "minecraft:debug_stick" # Bans this item, custom model data or not.
+  - "minecraft:iron_sword:17" # Bans this item with the specific custom model data.
+  - "minecraft:redstone_repeater:*" # Bans this item if it has custom model data.
+
+sounds:
+  shop-created:
+    identifier: "minecraft:block.beacon.activate"
+    category: "BLOCKS"
+    volume: 1.0
+    pitch: 1.5
+  shop-broken:
+    identifier: "minecraft:block.beacon.deactivate"
+    category: "BLOCKS"
+    volume: 1.0
+    pitch: 1.5
+  display-changed:
+    identifier: "minecraft:block.wood.break"
+    category: "BLOCKS"
+    volume: 0.5
+    pitch: 0.5
+  item-purchased:
+    identifier: "minecraft:block.note_block.bell"
+    category: "BLOCKS"
+    volume: 0.3
+    pitch: 1.2
+  item-sold:
+    identifier: "minecraft:block.note_block.bell"
+    category: "BLOCKS"
+    volume: 0.3
+    pitch: 0.8
+
+lang:
+  prefix: "&#696969[&#7E50C7N&#8253B8e&#8555A8o&#895899C&#8D5B8Ah&#915E7Be&#94606Bs&#98635Ct&#9C664DS&#A0693Eh&#A36B2Eo&#A76E1Fp&#696969]&f "
+
+  economy-not-loaded: "&4No economy is loaded. No shops will function. Contact a server admin."
+
+  no-container-found: "&cNo container was found in a valid location. Try elsewhere."
+  shop-already-exists: "&cA shop already exists on the nearest container. Try elsewhere."
+
+  price-required: "&cA price is required on the second line."
+  invalid-price-format: "<hover:show_text:'<gold><bold>Examples:</bold>
+    <newline><yellow>\"<gold>10<yellow>\" would be a shop where users buy for <gold>{symbol}10<yellow>.
+    <newline><yellow>\"<gold>10:5<yellow>\" would be a shop where users buy for <gold>{symbol}10<yellow>, sell for <gold>{symbol}5<yellow>.
+    <newline><yellow>\"<gold>:5<yellow>\" would be a shop where users sell for <gold>{symbol}5<yellow>.'>
+    <red>Invalid price format. The format is \"<dark_red><buy>:<sell><red>\". Hover for examples."
+  price-too-low: "&cPrices must be greater than &6{symbol}0&c."
+
+  quantity-required: "&cA quantity is required on the third line."
+  invalid-quantity: "&c'&4{arg}&c' is not a valid quantity."
+  quantity-too-low: "&cQuantity must be greater than 0."
+
+  shop-initialization: "&eRight click the sign with the item you'd like this shop to be."
+
+  no-item-in-hand: "&cThere is no item in your hand."
+  item-blacklisted: "&cThat item can't be put in shops."
+
+  parsed-shop-text: "&0&l[&bShop&0&l]"
+  buy-text: "&0Buy: &a{symbol}&a{buy-price}"
+  sell-text: "&0Sell: &c{symbol}&c{sell-price}"
+  buy-sell-text: "&a{symbol}{buy-price} &0| &c{symbol}{sell-price}"
+  quantity-text: "&f{quantity}"
+
+  cannot-buy: "&cYou can't buy at this shop."
+  cannot-sell: "&cYou can't sell at this shop."
+
+  self-cannot-afford: "&cYou can't afford that."
+  owner-cannot-afford: "&c{owner} can't afford to purchase more items."
+
+  out-of-stock: "&cThis shop is out of stock."
+  not-enough-items: "&cYou don't have enough items to sell to this shop."
+
+  self-inventory-full: "&cYour inventory is too full to purchase this item."
+  shop-inventory-full: "&cThis shop doesn't have enough space to purchase more items."
+
+  successfully-purchased: "&aYou successfully purchased {quantity} &b&l{item-name}&a from {owner}{s} shop for &b{cost} {economy}&a."
+  successfully-sold: "&aYou successfully sold {quantity} &b&l{item-name}&a to {owner}{s} shop for &b{cost} {economy}&a."
+
+  player-purchased: "&a{purchaser} purchased {quantity} &b&l{item-name}&a from your shop for &b{cost} {economy}&a."
+  player-sold: "&a{seller} sold {quantity} &b&l{item-name}&a to your shop for &b{cost} {economy}&a."
+
+  changed-display: "&aSuccessfully changed your shop's display."
+
+  not-your-shop: "&cThis shop doesn't belong to you!"
+  break-sign-first: "&cTo destroy this shop, you must first break the sign."
+  shop-removed: "&cSuccessfully removed shop."
+
+  admin-mode-on: "&bAdmin mode &a&lENABLED&b."
+  admin-mode-off: "&bAdmin mode &c&lDISABLED&b."
+
+  admin-removed-shop: "&cRemoved {owner}{s} shop."
+
+  now-ignoring-notifs: "&cNow ignoring chest shop notifications from your own shops."
+  no-longer-ignoring-notifs: "&aNo longer ignoring chest shop notifications from your own shops."

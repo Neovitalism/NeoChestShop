@@ -1,0 +1,39 @@
+display-types:
+  still-item:
+    entities:
+      item:
+        type: "DISPLAY"
+        scale: 0.5
+        transformations:
+          y: -0.2
+  rotating-item:
+    entities:
+      item:
+        type: "ITEM" # scale no worky on ITEM
+        transformations:
+          y: -0.5
+  encased-rotating-item:
+    entities:
+      item:
+        type: "ITEM"
+        transformations:
+          y: -0.4
+      glass:
+        type: "DISPLAY"
+        identifier: "minecraft:glass" # Dare you to change this to cobblemon:display_case (requires Cobblemon)
+        transformations:
+          y: -0.065
+        scale: 0.8
+#  display-item: # Uncomment if running Cobblemon! Trust!
+#    entities:
+#      item:
+#        type: "DISPLAY"
+#        scale: 0.4
+#      case:
+#        type: "DISPLAY"
+#        identifier: "cobblemon:display_case"
+#        transformations:
+#          y: -0.065
+#        scale: 0.8
+  none:
+    entities: {}

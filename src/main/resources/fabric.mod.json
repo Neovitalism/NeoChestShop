@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "id": "neochestshop",
+  "version": "${version}",
+
+  "name": "NeoChestShop",
+  "description": "A fabric mod made for players to create their own shops at home.",
+  "authors": [
+    "Neovitalism"
+  ],
+  "contact": {
+    "homepage": "https://discord.gg/fQXCccxMrD"
+  },
+
+  "license": "MIT",
+
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "dev.neovitalism.chestshop.NeoChestShop"
+    ]
+  },
+
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric-api": "*",
+    "minecraft": "~${minecraft_version}",
+    "java": ">=21",
+    "neoapi": ">=${neo_api_version}"
+  },
+
+  "mixins": [
+    "neochestshop.mixins.json"
+  ],
+
+  "suggests": {
+    "luckperms": ">=5.4.139"
+  }
+}
