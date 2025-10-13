@@ -42,7 +42,7 @@ public class PlayerListeners {
             if (!(blockEntity instanceof SignBlockEntity entity)) return ActionResult.PASS;
             Location here = Location.from((ServerWorld) world, pos);
             ContainerShop shop = ShopRegistry.getShopForSign(here);
-            if (shop == null || shop.isOwner(player.getUuid())) return ActionResult.PASS; // Owners can break their own shops.
+            if (shop == null || shop.isOwner(player.getUuid()) || AdminMode.has(player.getUuid())) return ActionResult.PASS; // Owners and admins can break shops.
             ServerPlayerEntity serverPlayer = (ServerPlayerEntity) player;
             shop.sell(serverPlayer);
             PlayerListeners.ASYNC_EXEC.scheduleTaskAsync(() -> {
