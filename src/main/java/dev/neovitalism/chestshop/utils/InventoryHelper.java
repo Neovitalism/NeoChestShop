@@ -33,10 +33,10 @@ public class InventoryHelper {
     }
 
     public static void insert(Inventory inv, List<ItemStack> stacks) {
-        for (int i = 0; i < inv.size(); i++) {
-            ItemStack content = inv.getStack(i);
-            for (ItemStack stack : stacks) {
-                if (stack.isEmpty()) continue;
+        for (ItemStack stack : stacks) {
+            for (int i = 0; i < inv.size(); i++) {
+                if (stack.isEmpty()) break;
+                ItemStack content = inv.getStack(i);
                 if (content.isEmpty()) {
                     inv.setStack(i, stack.copy());
                     stack.setCount(0);
