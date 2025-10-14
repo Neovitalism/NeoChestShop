@@ -6,6 +6,7 @@
   "mixins": [
     "DisplayEntityAccessor",
     "ExplosionMixin",
+    "ItemEntityMixin",
     "PistonHandlerMixin",
     "SignBlockEntityMixin"
   ],
