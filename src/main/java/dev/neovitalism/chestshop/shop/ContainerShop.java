@@ -15,6 +15,8 @@ import me.neovitalism.neoapi.player.PlayerManager;
 import me.neovitalism.neoapi.utils.ColorUtil;
 import me.neovitalism.neoapi.utils.StringUtil;
 import me.neovitalism.neoapi.utils.UUIDCache;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.SignText;
 import net.minecraft.entity.Entity;
 import net.minecraft.inventory.Inventory;
@@ -183,6 +185,8 @@ public class ContainerShop {
 
         ChestShopConfig.sendItemPurchasedSound(player);
         ChestShopConfig.sendItemSoldSound(this.getOwnerEntity());
+
+        this.markContainerDirty();
     }
 
     public void sell(ServerPlayerEntity player) {
@@ -232,6 +236,8 @@ public class ContainerShop {
 
         ChestShopConfig.sendItemPurchasedSound(this.getOwnerEntity());
         ChestShopConfig.sendItemSoldSound(player);
+
+        this.markContainerDirty();
     }
 
     private ServerPlayerEntity getOwnerEntity() {
@@ -243,6 +249,14 @@ public class ContainerShop {
         if (player == null) return;
         if (PlayerManager.containsTag(player, "ncs.ignore")) return;
         ChestShopConfig.getLangManager().sendLang(player, langKey, replacements);
+    }
+
+    private void markContainerDirty() {
+        BlockEntity blockEntity = this.containerLocation.getBlockEntity();
+        if (blockEntity == null) return;
+        BlockState state = blockEntity.getCachedState();
+        blockEntity.markDirty();
+        this.containerLocation.getWorld().updateListeners(blockEntity.getPos(), state, state, 3);
     }
 
     public Configuration toConfig() {
