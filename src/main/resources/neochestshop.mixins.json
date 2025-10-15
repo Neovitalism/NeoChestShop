@@ -6,9 +6,13 @@
   "mixins": [
     "DisplayEntityAccessor",
     "ExplosionMixin",
+    "HangingSignBlockMixin",
+    "HopperBlockEntityMixin",
     "ItemEntityMixin",
     "PistonHandlerMixin",
-    "SignBlockEntityMixin"
+    "SignBlockEntityMixin",
+    "SignBlockMixin",
+    "WallSignBlockMixin"
   ],
   "injectors": {
     "defaultRequire": 1

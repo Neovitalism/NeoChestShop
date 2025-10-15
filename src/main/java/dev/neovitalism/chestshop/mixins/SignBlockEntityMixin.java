@@ -10,6 +10,7 @@ import me.neovitalism.neoapi.objects.Location;
 import me.neovitalism.neoapi.player.PlayerManager;
 import me.neovitalism.neoapi.utils.ColorUtil;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.SignBlock;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.block.entity.SignBlockEntity;
