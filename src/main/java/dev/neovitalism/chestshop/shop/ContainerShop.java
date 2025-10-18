@@ -8,6 +8,8 @@ import dev.neovitalism.chestshop.config.display.DisplayOption;
 import dev.neovitalism.chestshop.config.display.DisplayRegistry;
 import dev.neovitalism.chestshop.utils.DisplayHelper;
 import dev.neovitalism.chestshop.utils.InventoryHelper;
+import me.neovitalism.neoapi.async.NeoAPIExecutorManager;
+import me.neovitalism.neoapi.async.NeoExecutor;
 import me.neovitalism.neoapi.config.Configuration;
 import me.neovitalism.neoapi.lang.LangManager;
 import me.neovitalism.neoapi.objects.Location;
@@ -22,6 +24,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
 import net.minecraft.util.DyeColor;
 
@@ -29,8 +32,10 @@ import java.math.BigDecimal;
 import java.util.*;
 
 public class ContainerShop {
+    private static final NeoExecutor ASYNC_EXEC = NeoAPIExecutorManager.createScheduler("NeoChestShop-Player-Thread", 1);
+
     private final UUID ownerUUID;
-    private final String ownerName;
+    private String ownerName = "UNKNOWN";
     private final ShopItem shopItem;
 
     private final double buyPrice;
@@ -60,7 +65,7 @@ public class ContainerShop {
 
     public ContainerShop(Configuration config) {
         this.ownerUUID = config.getUUID("owner");
-        this.ownerName = UUIDCache.getUsernameFromUUID(this.ownerUUID);
+        this.updateUsername(1);
         this.shopItem = ShopItem.fromConfig(config.getSection("shop-item"));
         this.buyPrice = config.getDouble("buy-price");
         this.sellPrice = config.getDouble("sell-price");
@@ -77,6 +82,21 @@ public class ContainerShop {
 
     public String getOwnerName() {
         return this.ownerName;
+    }
+
+    private void updateUsername(int attempt) {
+        ContainerShop.ASYNC_EXEC.runCompletableTaskAsync(() -> UUIDCache.getUsernameFromUUID(this.ownerUUID))
+                .whenComplete((username, error) -> {
+                    if (error != null) {
+                        if (attempt == 5) {
+                            this.ownerName = "UNKNOWN";
+                            NeoChestShop.inst().getLogger().error("Failed to get the username for UUID: " + this.ownerUUID);
+                            NeoChestShop.inst().getLogger().printStackTrace(error);
+                            return;
+                        }
+                        this.updateUsername(attempt + 1);
+                    } else this.ownerName = username;
+                });
     }
 
     public Location getSignLocation() {
@@ -254,9 +274,18 @@ public class ContainerShop {
     private void markContainerDirty() {
         BlockEntity blockEntity = this.containerLocation.getBlockEntity();
         if (blockEntity == null) return;
+        ServerWorld world = this.containerLocation.getWorld();
+        this.markContainerDirty(world, blockEntity);
+        for (Location loc : this.blockHandler.getOtherInventoryLocations(this.containerLocation.getBlockEntity())) {
+            BlockEntity other = loc.getBlockEntity();
+            if (other != null) this.markContainerDirty(world, other);
+        }
+    }
+
+    private void markContainerDirty(ServerWorld world, BlockEntity blockEntity) {
         BlockState state = blockEntity.getCachedState();
         blockEntity.markDirty();
-        this.containerLocation.getWorld().updateListeners(blockEntity.getPos(), state, state, 3);
+        world.updateListeners(blockEntity.getPos(), state, state, 3);
     }
 
     public Configuration toConfig() {

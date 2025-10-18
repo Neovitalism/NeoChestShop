@@ -11,6 +11,7 @@ import dev.neovitalism.chestshop.shop.ShopRegistry;
 import me.neovitalism.neoapi.modloading.NeoMod;
 import me.neovitalism.neoapi.modloading.command.CommandRegistryInfo;
 import me.neovitalism.neoapi.utils.ServerUtil;
+import me.neovitalism.neoapi.utils.UUIDCache;
 import net.fabricmc.loader.api.FabricLoader;
 
 import java.util.function.Function;
@@ -32,6 +33,7 @@ public class NeoChestShop extends NeoMod {
     @Override
     public void onInitialize() {
         super.onInitialize();
+        UUIDCache.setCacheToFile(true);
         NeoChestShop.instance = this;
     }
 

@@ -26,7 +26,7 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 public class PlayerListeners {
-    private static final NeoExecutor ASYNC_EXEC = NeoAPIExecutorManager.createScheduler("NeoChestShop Updater Thread", 1);
+    private static final NeoExecutor ASYNC_EXEC = NeoAPIExecutorManager.createScheduler("NeoChestShop-Updater-Thread", 1);
 
     public static void init() {
         PlayerListeners.onHitBlock();
