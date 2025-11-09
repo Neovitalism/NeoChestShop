@@ -1,6 +1,7 @@
 package dev.neovitalism.chestshop.utils;
 
 import dev.neovitalism.chestshop.shop.ShopItem;
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.collection.DefaultedList;
@@ -12,7 +13,10 @@ public class InventoryHelper {
     public static boolean canInsert(Inventory inv, List<ItemStack> stacks) {
         stacks = stacks.stream().map(ItemStack::copy).toList();
         DefaultedList<ItemStack> contents = DefaultedList.ofSize(inv.size(), ItemStack.EMPTY);
-        for (int i = 0; i < inv.size(); i++) contents.set(i, inv.getStack(i).copy());
+        for (int i = 0; i < inv.size(); i++) {
+            if (inv instanceof PlayerInventory && i >= 36) break;
+            contents.set(i, inv.getStack(i).copy());
+        }
         for (ItemStack stack : stacks) {
             for (int i = 0; i < contents.size(); i++) {
                 if (stack.isEmpty()) break;
@@ -35,6 +39,7 @@ public class InventoryHelper {
     public static void insert(Inventory inv, List<ItemStack> stacks) {
         for (ItemStack stack : stacks) {
             for (int i = 0; i < inv.size(); i++) {
+                if (inv instanceof PlayerInventory && i >= 36) break;
                 if (stack.isEmpty()) break;
                 ItemStack content = inv.getStack(i);
                 if (content.isEmpty()) {

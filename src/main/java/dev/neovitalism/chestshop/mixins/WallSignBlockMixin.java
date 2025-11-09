@@ -19,7 +19,8 @@ public abstract class WallSignBlockMixin extends AbstractSignBlock {
 
     @Override
     protected boolean canPlaceAt(BlockState state, WorldView world, BlockPos pos) {
-        if (ShopRegistry.getShopForSign(Location.from((ServerWorld) world, pos)) == null) return true;
+        if (!(world instanceof ServerWorld)) return false; // Prevents a WorldGen crash.
+        if (ShopRegistry.getShopForSign(Location.from((ServerWorld) world, pos)) != null) return true;
         return super.canPlaceAt(state, world, pos);
     }
 }

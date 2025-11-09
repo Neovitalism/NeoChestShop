@@ -22,6 +22,7 @@ public abstract class SignBlockMixin {
             cancellable = true
     )
     public void neoChestShop$preventShopFalling(BlockState state, WorldView world, BlockPos pos, CallbackInfoReturnable<Boolean> cir) {
+        if (!(world instanceof ServerWorld)) return; // Prevents a WorldGen crash.
         if (ShopRegistry.getShopForSign(Location.from((ServerWorld) world, pos)) == null) return;
         cir.setReturnValue(true);
         cir.cancel();
