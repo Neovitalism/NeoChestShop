@@ -24,6 +24,7 @@ dependencies {
     compileOnly 'net.luckperms:api:5.4'
 
     modImplementation files("libs/Impactor-Fabric-5.3.0+1.21.1.jar")
+    modImplementation files("libs/beconomy-1.5.jar")
 
     modImplementation "com.cobblemon:fabric:${project.cobblemon_version}+1.21.1"
 }

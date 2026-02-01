@@ -85,10 +85,8 @@ public class ShopItem {
         int customModelData = config.getInt("custom-model-data", -1);
         int quantity = config.getInt("quantity");
         String displayItemNBT = config.getString("display-item", null);
-        ItemStack displayItem;
-        if (displayItemNBT != null) {
-            displayItem = ItemHelper.fromString(displayItemNBT);
-        } else { // Sole reason we need this is because it didn't always exist.
+        ItemStack displayItem = (displayItemNBT != null) ? ItemHelper.fromString(displayItemNBT) : null;
+        if (displayItem == null) {
             displayItem = new ItemStack(item);
             if (customModelData != -1) ItemHelper.setCustomModelData(displayItem, customModelData);
             ItemHelper.setFireResistant(displayItem, true);

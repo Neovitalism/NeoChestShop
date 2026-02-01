@@ -4,6 +4,7 @@ import dev.neovitalism.chestshop.api.economy.Economy;
 import dev.neovitalism.chestshop.command.NeoChestShopCommand;
 import dev.neovitalism.chestshop.config.ChestShopConfig;
 import dev.neovitalism.chestshop.config.display.DisplayRegistry;
+import dev.neovitalism.chestshop.economy.BEconomy;
 import dev.neovitalism.chestshop.economy.ImpactorEconomy;
 import dev.neovitalism.chestshop.hooks.CobblemonHook;
 import dev.neovitalism.chestshop.listeners.PlayerListeners;
@@ -18,6 +19,8 @@ import java.util.function.Function;
 
 public class NeoChestShop extends NeoMod {
     private static NeoChestShop instance;
+
+    private static Function<String, Economy> economyFunction = null;
     private static Economy economy = null;
 
     @Override
@@ -39,11 +42,28 @@ public class NeoChestShop extends NeoMod {
 
     @Override
     public void onServerStart() {
+        this.registerEconomyProvider();
         super.onServerStart();
         PlayerListeners.init();
         if (ServerUtil.isModLoaded("cobblemon")) CobblemonHook.registerGildedChest();
         ShopRegistry.init();
         this.getLogger().info("Loaded!");
+    }
+
+    private void registerEconomyProvider() {
+        if (NeoChestShop.economy == null) {
+            if (FabricLoader.getInstance().isModLoaded("impactor")) {
+                this.getLogger().info("Found impactor as an economy provider.");
+                NeoChestShop.setEconomyFunction(ImpactorEconomy::new);
+            } else if (FabricLoader.getInstance().isModLoaded("beconomy")) {
+                this.getLogger().info("Found beconomy as an economy provider.");
+                NeoChestShop.setEconomyFunction(BEconomy::new);
+            } else {
+                this.getLogger().error("No economy provider found! This mod will cease to function. Existing shops will still be protected.");
+            }
+        } else {
+            this.getLogger().info("Using " + NeoChestShop.getEconomy().getClass().getSimpleName() + " as a custom economy provider.");
+        }
     }
 
     @Override
@@ -56,14 +76,7 @@ public class NeoChestShop extends NeoMod {
         String oldEconomyName = (NeoChestShop.economy == null) ? null : ChestShopConfig.getEconomyName();
         ChestShopConfig.reload(this.getConfig("config.yml", true));
         String economyName = ChestShopConfig.getEconomyName();
-        if (!economyName.equals(oldEconomyName)) {
-            if (FabricLoader.getInstance().isModLoaded("impactor")) {
-                this.getLogger().info("Hooked into Impactor's " + economyName + " economy.");
-                NeoChestShop.setEconomy(ImpactorEconomy::new);
-            } else {
-                this.getLogger().error("No economy provider found! This mod will cease to function. Existing shops will still be protected.");
-            }
-        }
+        if (!economyName.equals(oldEconomyName)) NeoChestShop.economy = NeoChestShop.economyFunction.apply(economyName);
         DisplayRegistry.reload(this.getConfig("display-types.yml", true));
     }
 
@@ -76,8 +89,8 @@ public class NeoChestShop extends NeoMod {
         return NeoChestShop.instance;
     }
 
-    public static void setEconomy(Function<String, Economy> economy) {
-        NeoChestShop.economy = economy.apply(ChestShopConfig.getEconomyName());
+    public static void setEconomyFunction(Function<String, Economy> economyFunction) {
+        NeoChestShop.economyFunction = economyFunction;
     }
 
     public static Economy getEconomy() {
