@@ -16,6 +16,7 @@ public class ChestShopConfig {
     private static List<String> signDisplay;
     private static boolean shouldShopSignsGlow;
     private static List<String> blacklistedItems;
+    private static double taxPercent;
 
     private static Sound shopCreatedSound;
     private static Sound shopBrokenSound;
@@ -30,6 +31,7 @@ public class ChestShopConfig {
         ChestShopConfig.signDisplay = config.getStringList("sign-display");
         ChestShopConfig.shouldShopSignsGlow = config.getBoolean("should-shop-signs-glow");
         ChestShopConfig.blacklistedItems = config.getStringList("blacklisted-items");
+        ChestShopConfig.taxPercent = config.getDouble("tax-percentage");
 
         ChestShopConfig.shopCreatedSound = config.getSound("sounds.shop-created");
         ChestShopConfig.shopBrokenSound = config.getSound("sounds.shop-broken");
@@ -51,6 +53,8 @@ public class ChestShopConfig {
     public static boolean shouldShopsGlow() {
         return ChestShopConfig.shouldShopSignsGlow;
     }
+
+    public static double getTaxPercent() { return ChestShopConfig.taxPercent; }
 
     public static boolean isItemBlacklisted(ItemStack item) {
         String identifier = ItemHelper.getIdentifier(item.getItem()).toString();
