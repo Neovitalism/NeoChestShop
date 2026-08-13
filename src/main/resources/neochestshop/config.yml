@@ -98,8 +98,8 @@ lang:
   self-inventory-full: "&cYour inventory is too full to purchase this item."
   shop-inventory-full: "&cThis shop doesn't have enough space to purchase more items."
 
-  successfully-purchased: "&aYou successfully purchased {quantity} &b&l{item-name}&a from {owner}{s} shop for &b{cost} {economy}&a."
-  successfully-sold: "&aYou successfully sold {quantity} &b&l{item-name}&a to {owner}{s} shop for &b{cost} {economy}&a."
+  successfully-purchased: "&aYou successfully purchased {quantity} &b&l{item-name}&a from {owner}{s} shop for &b{base-cost} {economy}&a."
+  successfully-sold: "&aYou successfully sold {quantity} &b&l{item-name}&a to {owner}{s} shop for &b{base-cost} {economy}&a."
 
   player-purchased: "&a{purchaser} purchased {quantity} &b&l{item-name}&a from your shop for &b{cost} {economy}&a."
   player-sold: "&a{seller} sold {quantity} &b&l{item-name}&a to your shop for &b{cost} {economy}&a."
