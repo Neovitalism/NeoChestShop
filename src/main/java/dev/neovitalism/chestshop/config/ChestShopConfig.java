@@ -15,8 +15,8 @@ public class ChestShopConfig {
     private static String economyName;
     private static List<String> signDisplay;
     private static boolean shouldShopSignsGlow;
-    private static List<String> blacklistedItems;
     private static double taxPercent;
+    private static List<String> blacklistedItems;
 
     private static Sound shopCreatedSound;
     private static Sound shopBrokenSound;

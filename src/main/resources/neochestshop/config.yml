@@ -10,8 +10,10 @@ sign-display:
   #   ITEM_MATERIAL - the material of the item they put as the shop, suffixed with the custom model data.
   #   OWNER - the name of the owner of the shop
 should-shop-signs-glow: false
-tax-percentage: 0.05
-hologram:
+
+tax-percentage: 0.05 # The amount of sales tax charged to the shop owner out of the purchase price.
+
+hologram: # Unused at the moment. Oops. I will return to this.
   enabled: false
   text:
     - "{item}"
