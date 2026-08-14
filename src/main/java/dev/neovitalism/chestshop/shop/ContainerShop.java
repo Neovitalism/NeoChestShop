@@ -187,8 +187,9 @@ public class ContainerShop {
             return;
         }
         List<ItemStack> items = InventoryHelper.getMatchingItems(inventory, this.shopItem, true);
+        double taxedBuyPrice = this.buyPrice * (1.0 - ChestShopConfig.getTaxPercent());
         NeoChestShop.getEconomy().removeBalance(player.getUuid(), BigDecimal.valueOf(this.buyPrice));
-        NeoChestShop.getEconomy().addBalance(this.ownerUUID, BigDecimal.valueOf(this.buyPrice));
+        NeoChestShop.getEconomy().addBalance(this.ownerUUID, BigDecimal.valueOf(taxedBuyPrice));
         InventoryHelper.insert(playerInventory, items);
 
         Map<String, String> replacements = new HashMap<>();
@@ -196,8 +197,10 @@ public class ContainerShop {
         replacements.put("{item-name}", this.shopItem.getItemName());
         replacements.put("{owner}", this.ownerName);
         replacements.put("{symbol}", NeoChestShop.getEconomy().getSymbol());
-        replacements.put("{cost}", StringUtil.fixTrailingZeros(this.buyPrice));
+        replacements.put("{base-cost}", StringUtil.fixTrailingZeros(this.buyPrice));
+        replacements.put("{cost}", StringUtil.fixTrailingZeros(taxedBuyPrice));
         replacements.put("{economy}", NeoChestShop.getEconomy().getEconomyName(this.buyPrice));
+        replacements.put("{tax}", (ChestShopConfig.getTaxPercent() * 100) + "%");
         ChestShopConfig.getLangManager().sendLang(player, "successfully-purchased", replacements);
 
         replacements.put("{purchaser}", player.getName().getString());
@@ -238,8 +241,9 @@ public class ContainerShop {
         }
 
         List<ItemStack> items = InventoryHelper.getMatchingItems(playerInventory, this.shopItem, true);
+        double taxedSellPrice = this.sellPrice * (1.0 - ChestShopConfig.getTaxPercent());
         NeoChestShop.getEconomy().removeBalance(this.ownerUUID, BigDecimal.valueOf(this.sellPrice));
-        NeoChestShop.getEconomy().addBalance(player.getUuid(), BigDecimal.valueOf(this.sellPrice));
+        NeoChestShop.getEconomy().addBalance(player.getUuid(), BigDecimal.valueOf(taxedSellPrice));
         InventoryHelper.insert(inventory, items);
 
         Map<String, String> replacements = new HashMap<>();
@@ -247,8 +251,10 @@ public class ContainerShop {
         replacements.put("{item-name}", this.shopItem.getItemName());
         replacements.put("{owner}", this.ownerName);
         replacements.put("{symbol}", NeoChestShop.getEconomy().getSymbol());
-        replacements.put("{cost}", StringUtil.fixTrailingZeros(this.sellPrice));
+        replacements.put("{base-cost}", StringUtil.fixTrailingZeros(this.sellPrice));
+        replacements.put("{cost}", StringUtil.fixTrailingZeros(taxedSellPrice));
         replacements.put("{economy}", NeoChestShop.getEconomy().getEconomyName(this.sellPrice));
+        replacements.put("{tax}", (ChestShopConfig.getTaxPercent() * 100) + "%");
         ChestShopConfig.getLangManager().sendLang(player, "successfully-sold", replacements);
 
         replacements.put("{seller}", player.getName().getString());
